@@ -1,0 +1,16 @@
+{
+  "name": "exploding-kitten-game",
+  "version": "1.0.0",
+  "description": "A single-player card game using React and Redux",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "redux": "^4.1.0",
+    "react-redux": "^7.2.4"
+  }
+}
