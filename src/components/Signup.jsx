@@ -1,0 +1,59 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, fetchHighscore } from '../redux/slices/userSlice';
+import './Style.css';
+import { useNavigate } from 'react-router-dom';
+
+function Signup() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:5000/users/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        localStorage.setItem('user', JSON.stringify(json));
+        dispatch(setUser(json));
+        dispatch(fetchHighscore());
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
+  };
+
+  return (
+    <div className="signup-container">
+      <div className="signup-content">
+        <h1>Signup</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email : </label> <br />
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /> <br />
+          </div>
+
+          <div>
+            <label>Password : </label> <br />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+
+        <button onClick={() => navigate('/login')}>Already a user? Login</button>
+      </div>
+    </div>
+  );
+}
+
+export default Signup;
